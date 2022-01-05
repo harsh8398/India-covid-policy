@@ -1,10 +1,10 @@
 # This is a workflow to trigger updates of the US subnational (non-imputed) data 
 
-name: Update OxCGRT-US CSV
+name: Update OxCGRT-IND CSV
 
 on:
   schedule:
-    - cron: '0 * * * *'
+    - cron: '0 0 */2 * *'
 
 jobs:
   build:
@@ -15,15 +15,15 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Download a raw CSV of US non-imputed values from OxCGRT database
+      - name: Download a raw CSV of IND non-imputed values from OxCGRT database
         run: |
-          curl 'https://oxcgrtportal.azurewebsites.net/api/csvdownload?type=subnational_us' -s -f -o 'data/OxCGRT_US_latest.csv'
+          curl 'https://oxcgrtportal.azurewebsites.net/api/csvdownload?type=subnational_india' -s -f -o 'data/OxCGRT_IND_latest.csv'
       - name: Commit changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add .
-          git diff-index --quiet HEAD || git commit -m "Pull latest OxCGRT US non-imputed subnational data" -a
+          git diff-index --quiet HEAD || git commit -m "Pull latest OxCGRT IND non-imputed subnational data" -a
           
       - name: Push changes
         uses: ad-m/github-push-action@master
